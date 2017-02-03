@@ -1,0 +1,25 @@
+{
+  "manifest_version": 2,
+  "name": "GithubRemark",
+  "version": "0.1",
+  "description": "Record user view log for Coupon.",
+  "icons": { "128": "images/github_512.png" },
+  "background": {
+    "persistent": true,
+    "scripts": ["bg.js"]
+  },
+  /*"content_scripts": [{  
+	"matches": ["http://*.smzdm.com/"],
+	"js": ["bower_components/jquery/dist/jquery.js","smzdm.js"]
+  }],*/ 
+  "options_page": "options.html",
+  "permissions": ["tabs", "*://*/*"],
+  "browser_action": {
+    "default_title": "GithubRemark",
+    "default_icon": {
+        "19": "images/github.png"
+    },
+    "default_popup": "popup.html"
+  }
+}
+
