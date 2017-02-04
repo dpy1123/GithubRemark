@@ -49,7 +49,7 @@ getLocalStorage('userId', function (value) {
 
 
 function getMasterOfPage() {
-	var master = /github.com\/([^\/]+)[?{0,1}|^\/{0,1}]/.exec(location.href);
+	var master = /github.com\/([^\/|^\?]+)/.exec(location.href);
 	if (master !== null)
 		master = master[1];
 	return master;
@@ -84,7 +84,8 @@ function showRemarkInLeftPannel(userToken) {
 		if (vcard.childElementCount > 2)
 			vcard.removeChild(vcard.querySelector('span.github-remarks'));
 
-		getRemark(userToken, getMasterOfPage(), function(remark){
+		var username = getMasterOfPage();
+		getRemark(userToken, username, function(remark){
 			var remarkEl = buildSpanElement('vcard-username d-block github-remarks', '(' + remark + ')');
 			remarkEl.addEventListener('dblclick', function (event) {
 				changeRemarks(userToken, username, remark);
@@ -140,8 +141,9 @@ function showRemarkInFollowersTab(userToken) {
 function showRemarkInRepoDetailPage(userToken) {
 	var author = document.querySelector('span.author > a');//in a repo page
 	if (!!author) {
-		getRemark(userToken, getMasterOfPage(), function(remark){
-			author.textContent += '(' + remark + ')';
+		var username = getMasterOfPage();
+		getRemark(userToken, username, function(remark){
+			author.textContent = username + '(' + remark + ')';
 		});
 	}
 }

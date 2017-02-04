@@ -4,8 +4,8 @@ var webApi = {
 		xhr.onreadystatechange = function () {
 			if ( xhr.readyState === xhr.DONE ) {
 				if ( xhr.status === 200 || xhr.status === 0 ) {
-					if ( xhr.responseText ) {
-						callback( xhr.responseText );
+					if ( xhr.response ) {
+						callback( xhr.response );
 					} else {
 						console.warn( "[" + url + "] seems to be unreachable or file there is empty" );
 					}
@@ -15,6 +15,7 @@ var webApi = {
 			}
 		};
 		xhr.open( "GET", url, true );
+		xhr.responseType = "json"; 
 		xhr.send( null );
 	},
     _jsonPost : function(url, data, callback){
@@ -22,26 +23,29 @@ var webApi = {
 		xhr.onreadystatechange = function () {
 			if ( xhr.readyState === xhr.DONE ) {
 				if ( xhr.status === 200 || xhr.status === 0 ) {
-					callback( xhr.responseText );
+					callback( xhr.response );
 				} else {
 					console.error( "jsonPost err [" + url + "] [" + xhr.status + "]" );
 				}
 			}
 		};
-        xhr.setRequestHeader("Content-Type", "application/json");  
 		xhr.open( "POST", url, true );
-		xhr.send( data );
+        xhr.setRequestHeader("Content-Type", "application/json"); 
+		xhr.responseType = "json"; 
+		xhr.send( JSON.stringify(data) );
 	}
 
 };
 webApi.updateRemark = function(userToken, username, remark, callback){
-     _jsonPost('', {}, function(result){
+	var data = {'userToken':userToken, 'username':username, 'remark':remark};
+    this._jsonPost('http://127.0.0.1:8888/updateRemark', data, function(result){
         callback(result.success);
     })
 };
 webApi.getRemark = function(userToken, username, callback){
-    _httpGet('', function(result){
-        if(result.success)
-            callback(result.data);
+	var url = 'http://127.0.0.1:8888/getRemark?userToken='+userToken+'&username='+username;
+    this._httpGet(url, function(result){
+		if(result.success)
+        	callback(result.data);
     })
 };
