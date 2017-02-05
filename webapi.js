@@ -1,5 +1,5 @@
 var webApi = {
-	_server_host : 'http://127.0.0.1:8855',
+	_server_host : 'https://promotion.devgo.top/github_remark',
     _httpGet : function(url, callback){
 		var xhr = new XMLHttpRequest();
 		xhr.onreadystatechange = function () {

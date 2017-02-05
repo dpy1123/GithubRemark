@@ -51,11 +51,11 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse){
 	switch(message.method){
 		case 'start': 
 			gr.start();
-			sendResponse({status: gr.isRecord});
+			sendResponse({status: gr.isStart});
 			break;
 		case 'stop': 
 			gr.stop();
-			sendResponse({status: gr.isRecord});
+			sendResponse({status: gr.isStart});
 			break;
 		case 'getLocalStorage': 
 			sendResponse(localStorage.getItem(message.key));
