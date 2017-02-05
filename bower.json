@@ -1,0 +1,26 @@
+{
+  "name": "GithubRemark",
+  "version": "0.0.1",
+  "description": "chrome扩展，为github用户添加备注名",
+  "moduleType": [
+    "node"
+  ],
+  "keywords": [
+    "github",
+    "remark",
+    "chrome-extension"
+  ],
+  "authors": [
+    "dd"
+  ],
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components"
+  ],
+  "dependencies": {
+    "bootstrap": "~3.3.5"
+  }
+}
