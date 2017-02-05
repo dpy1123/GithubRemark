@@ -1,4 +1,5 @@
 var webApi = {
+	_server_host : 'http://127.0.0.1:8855',
     _httpGet : function(url, callback){
 		var xhr = new XMLHttpRequest();
 		xhr.onreadystatechange = function () {
@@ -38,12 +39,12 @@ var webApi = {
 };
 webApi.updateRemark = function(userToken, username, remark, callback){
 	var data = {'token':userToken, 'username':username, 'remark':remark};
-    this._jsonPost('http://127.0.0.1:8888/updateRemark', data, function(result){
+    this._jsonPost(this._server_host+'/updateRemark', data, function(result){
         callback(result.success);
     })
 };
 webApi.getRemark = function(userToken, username, callback){
-	var url = 'http://127.0.0.1:8888/getRemark?token='+userToken+'&username='+username;
+	var url = this._server_host+'/getRemark?token='+userToken+'&username='+username;
     this._httpGet(url, function(result){
 		if(result.success)
         	callback(result.data);

@@ -1,5 +1,5 @@
 var mongoose = require('/usr/local/lib/node_modules/mongoose'),
-    DB_URL = 'mongodb://localhost:27017/github';
+    DB_URL = 'mongodb://127.0.0.1:27017/github';
 
 mongoose.connect(DB_URL);
 

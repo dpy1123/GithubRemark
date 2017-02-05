@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "GithubRemark",
   "version": "0.1",
-  "description": "Record user view log for Coupon.",
+  "description": "给你的Github好友增加备注名吧～",
   "icons": { "128": "images/github_512.png" },
   "background": {
     "persistent": true,

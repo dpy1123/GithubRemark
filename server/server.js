@@ -2,6 +2,7 @@ var http = require('http');
 var url = require("url");
 var queryString = require("querystring");
 var db_opt = require('./db.js');
+var port = 8855;
 
 function parsePost(req, res, next) {
     var arr = [];
@@ -51,5 +52,5 @@ var server = http.createServer(function (req, res) {
         process(req, res)
     }
 });
-server.listen(8888);
-console.log("http server running on port 8888 ...");
+server.listen(port);
+console.log("http server running on port "+port+" ...");
