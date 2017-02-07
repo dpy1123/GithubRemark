@@ -17,4 +17,5 @@ Done！
 
 ## 使用
 1.在图标上单击，选择on则开启功能。  
-2.开启后，在原来username的位置后面会有“()”，里面是remark信息。直接双击可以添加或修改备注。  
+2.开启后，在原来username的位置后面会有“(no remark)”，里面是remark信息。直接双击可以添加或修改备注。  
+在star follows following页面都可以增加备注～
