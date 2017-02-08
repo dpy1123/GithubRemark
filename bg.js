@@ -1,7 +1,6 @@
 var GithubRemark = function(initParams){
 	var _started = false,
-		_watchUrls = ['github.com'],
-		_version = "0.1";
+		_watchUrls = ['github.com'];
 	
 	Object.defineProperties(this, {
 		'isStart': { set: function(value){ _started = value; _valueUpdateTime = Date.now();}, get : function(){ return _started; } }
