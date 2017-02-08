@@ -1,26 +1,4 @@
 
-
-function checkUserId(userId) {
-	if (userId == null) {
-		var newId = window.prompt("请输入用户名", "userId");
-		if (newId == null || newId == "userId") {
-			alert('请先右键本扩展，在选项中设置userId！');
-		} else {
-			setLocalStorage('userId', newId);
-			alert('新userId已设置，请刷新此页面！');
-		}
-	}
-	return !(userId == null);
-}
-
-function getLocalStorage(key, callback) {
-	chrome.runtime.sendMessage({ "method": "getLocalStorage", "key": key }, function (response) { callback(response); })
-}
-
-function setLocalStorage(key, value) {
-	chrome.runtime.sendMessage({ "method": "setLocalStorage", "key": key, "value": value })
-}
-
 function updateRemark(userToken, username, remark){
 	webApi.updateRemark(userToken, username, remark, function(success){
 		if(success)
@@ -34,18 +12,21 @@ function getRemark(userToken, username, callback) {
 	webApi.getRemark(userToken, username, callback);
 }
 
-// document.addEventListener('readystatechange', function () {
-// 	if (document.readyState == "complete") { //当页面加载状态为完全结束时进入 
-console.log('inject');
-getLocalStorage('userId', function (value) {
-	if (checkUserId(value)) {
-		showRemarks(value);
+function getGithubLoginUsername() {
+	var doc = document.querySelector('strong.css-truncate-target');
+	return doc==null?null:doc.textContent;
+}
+
+
+(function(){
+	console.log('inject');
+	var username = getGithubLoginUsername();
+	if (username !== null) {
+		showRemarks(username);
+	}else{
+		alert('你还未登陆github，请先登录你的github账户！');
 	}
-})
-// 	}
-// });
-
-
+}());
 
 
 function getMasterOfPage() {

@@ -8,11 +8,6 @@
     "persistent": true,
     "scripts": ["bg.js"]
   },
-  /*"content_scripts": [{  
-	"matches": ["http://*.smzdm.com/"],
-	"js": ["bower_components/jquery/dist/jquery.js","smzdm.js"]
-  }],*/ 
-  "options_page": "options.html",
   "permissions": ["tabs", "*://*/*"],
   "browser_action": {
     "default_title": "GithubRemark",

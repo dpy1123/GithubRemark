@@ -9,15 +9,9 @@ var GithubRemark = function(initParams){
 	
 	var _insertFunc = function (tabId,changeInfo,tab){
 
-		if(changeInfo.status == 'loading'){//刷新一次标签页，onUpdated会被触发两次，第一次changeInfo.status是loading，第二次是changeInfo.status是complete
-			
+		if(changeInfo.status == 'loading'){
 			var urlPattern = new RegExp("("+_watchUrls.join('|')+")");
 			if(urlPattern.test(tab.url)){
-				//让用户界面执行代码。
-				//chrome.tabs.executeScript(tabId,{code : "alert('看看这是那个页面弹出的！');"});
-				//让用户界面执行一个文件的JS。
-				//chrome.tabs.executeScript(integer tabId, object details, function callback) 
-				//可惜的是file只支持单个js文件，如果我们有多个js文件，会带来不便，难不成要合并成一个js？答案是：使用callback参数，在第一个js执行完成，回调时，注入下一个js文件。
 				chrome.tabs.executeScript(tabId,{file : "webapi.js"},function(){
 					chrome.tabs.executeScript(tabId,{file : "ghremark.js"});
 				});
@@ -26,9 +20,8 @@ var GithubRemark = function(initParams){
 	}
 
 	this.start = function(){
-		if(_started == true) return;//防止重复启动
-
-		//注册事件的响应函数
+		if(_started == true) return;
+		
 		chrome.tabs.onUpdated.addListener(_insertFunc);
 		localStorage.recordStatus = "on";
 		_started = true;
