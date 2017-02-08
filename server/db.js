@@ -32,7 +32,7 @@ var Remark = mongoose.model('Remark', RemarkSchema);
 
 var DbOpt = {};
 DbOpt.updateRemark = function(token, username, remark, callback) {
-    var condition = { token: token, username: username, remark: remark };
+    var condition = { token: token, username: username };
     var update = { remark: remark };
     Remark.findOneAndUpdate(condition, update, { upsert: true }, function (err, doc) {
         if (err) return handleError(err);
