@@ -10,12 +10,8 @@
 ![加载扩展](doc/2.png)  
 Done！
 
-## 配置
-当然使用之前需要配置一下userId，用来区分用户。  
-在图标上右键->选项，即可指定用来识别你的userId。由于没有指定唯一性，请自觉使用区分度高的id，另外dpy1123已被占用！  
-如果在使用时，发现没有设置过userId，会prompt让你输入的。 
-
 ## 使用
 1.在图标上单击，选择on则开启功能。  
 2.开启后，在原来username的位置后面会有“(no remark)”，里面是remark信息。直接双击可以添加或修改备注。  
-在star follows following页面都可以增加备注～
+在star follows following页面都可以增加备注～  
+3.需要登陆github账号才可以使用，以github的username作为唯一标识。取消自行设置功能，防止设置他人的标识而获取他人的备注信息的行为。  
