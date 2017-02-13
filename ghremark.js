@@ -17,20 +17,25 @@ function getGithubLoginUsername() {
 	return doc==null?null:doc.textContent;
 }
 
+function hasLoginFrame() {
+	var loginBtn = document.querySelector('a.btn.site-header-actions-btn');
+	return loginBtn != null;
+}
+
 
 (function(){
 	console.log('inject');
 	var username = getGithubLoginUsername();
 	if (username !== null) {
 		showRemarks(username);
-	}else{
+	}else if(hasLoginFrame()) {
 		alert('你还未登陆github，请先登录你的github账户！');
 	}
 }());
 
 
-function getMasterOfPage() {
-	var master = /github.com\/([^\/|^\?]+)/.exec(location.href);
+function getMasterOfPage(url) {
+	var master = /github.com\/([^\/|^\?]+)/.exec(url);
 	if (master !== null)
 		master = master[1];
 	return master;
@@ -65,7 +70,7 @@ function showRemarkInLeftPannel(userToken) {
 		if (vcard.childElementCount > 2)
 			vcard.removeChild(vcard.querySelector('span.github-remarks'));
 
-		var username = getMasterOfPage();
+		var username = getMasterOfPage(location.href);
 		getRemark(userToken, username, function(remark){
 			var remarkEl = buildSpanElement('vcard-username d-block github-remarks', '(' + remark + ')');
 			remarkEl.addEventListener('dblclick', function (event) {
@@ -119,13 +124,42 @@ function showRemarkInFollowersTab(userToken) {
 	}
 }
 
+function showRemarkInRepoStargazersPage(userToken){
+	var stargazers = document.querySelectorAll('div.follower-list-align-top > h3 > span');
+	if (!!stargazers) {
+		stargazers.forEach(function(element){
+			var div = element.parentNode;
+			if (!!div.querySelector('span.github-remarks'))
+				div.removeChild(div.querySelector('span.github-remarks'));
+
+			var username = getMasterOfPage(element.querySelector('a').href);
+			getRemark(userToken, username, function(followerRemark){
+				var remarkEl = buildSpanElement('link-gray pl-1 github-remarks', '(' + followerRemark + ')');
+				remarkEl.addEventListener('dblclick', function (event) {
+					changeRemarks(userToken, username, followerRemark);
+				}, false);
+				insertAfter(remarkEl, element);
+			});
+		}, this);
+	}
+}
+
 function showRemarkInRepoDetailPage(userToken) {
 	var author = document.querySelector('span.author > a');//in a repo page
 	if (!!author) {
-		var username = getMasterOfPage();
+		var username = getMasterOfPage(location.href);
 		getRemark(userToken, username, function(remark){
 			author.textContent = username + '(' + remark + ')';
 		});
+	}
+	var repoDetail = /\/(stargazers|watchers)$/.exec(location.href);
+	if (repoDetail !== null) {
+		switch (repoDetail[1]) {
+			case 'watchers':
+			case 'stargazers':
+				showRemarkInRepoStargazersPage(userToken);
+				break;
+		}
 	}
 }
 
