@@ -61,6 +61,7 @@ function buildSpanElement(cssName, textContent) {
 	var span = document.createElement('span');
 	span.className = cssName;
 	span.textContent = textContent;
+	span.title = textContent;
 	return span;
 }
 
@@ -129,16 +130,24 @@ function showRemarkInRepoStargazersPage(userToken){
 	if (!!stargazers) {
 		stargazers.forEach(function(element){
 			var div = element.parentNode;
+			var a = element.querySelector('a');
 			if (!!div.querySelector('span.github-remarks'))
 				div.removeChild(div.querySelector('span.github-remarks'));
 
-			var username = getMasterOfPage(element.querySelector('a').href);
+			var username = getMasterOfPage(a.href);
 			getRemark(userToken, username, function(followerRemark){
 				var remarkEl = buildSpanElement('link-gray pl-1 github-remarks', '(' + followerRemark + ')');
 				remarkEl.addEventListener('dblclick', function (event) {
 					changeRemarks(userToken, username, followerRemark);
 				}, false);
-				insertAfter(remarkEl, element);
+				insertAfter(remarkEl, a);
+				//如果username太长，截断显示，为remark留点位置 
+				if (a.offsetWidth > element.clientWidth*4/5) {
+					a.style.width = element.clientWidth * 4/5 + 'px';
+					a.className += 'css-truncate-target';
+					remarkEl.style.width = element.clientWidth * 1/5 + 'px';
+					remarkEl.className += 'css-truncate-target';
+				}
 			});
 		}, this);
 	}
