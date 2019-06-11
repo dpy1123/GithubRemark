@@ -20,6 +20,7 @@ function parsePost(req, res, next) {
 }
 
 function process(req, res) {
+    res.setHeader('Access-Control-Allow-Origin', '*');
     var result = {
         "success": true
     };
