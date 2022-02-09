@@ -51,7 +51,15 @@ var server = http.createServer(function (req, res) {
         })
     } else if (req.method.toUpperCase() == 'GET') {
         process(req, res)
+    } else if (req.method.toUpperCase() == 'OPTIONS') {
+        res.writeHead(200, {
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Credential': 'true',
+            "Access-Control-Allow-Headers": '*',
+            'Access-Control-Allow-Methods': 'GET,POST,PUT,DELETE,OPTIONS'
+        });
+        res.end();
     }
 });
 server.listen(port);
-console.log("http server running on port "+port+" ...");
+console.log("http server running on port " + port + " ...");

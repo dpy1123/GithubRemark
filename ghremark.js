@@ -1,7 +1,7 @@
 
-function updateRemark(userToken, username, remark){
-	webApi.updateRemark(userToken, username, remark, function(success){
-		if(success)
+function updateRemark(userToken, username, remark) {
+	webApi.updateRemark(userToken, username, remark, function (success) {
+		if (success)
 			showRemarks(userToken);
 		else
 			alert('更新失败！');
@@ -13,26 +13,14 @@ function getRemark(userToken, username, callback) {
 }
 
 function getGithubLoginUsername() {
-	var doc = document.querySelector('strong.css-truncate-target');
-	return doc==null?null:doc.textContent;
+	var doc = document.querySelector("head > meta[name*='login']");
+	return doc == null ? null : doc.content;
 }
 
 function hasLoginFrame() {
-	var loginBtn = document.querySelector('a.btn.site-header-actions-btn');
+	var loginBtn = document.querySelector('div.HeaderMenu a[href*=login]');
 	return loginBtn != null;
 }
-
-
-(function(){
-	console.log('inject');
-	var username = getGithubLoginUsername();
-	if (username !== null) {
-		showRemarks(username);
-	}else if(hasLoginFrame()) {
-		alert('你还未登陆github，请先登录你的github账户！');
-	}
-}());
-
 
 function getMasterOfPage(url) {
 	var master = /github.com\/([^\/|^\?]+)/.exec(url);
@@ -72,7 +60,7 @@ function showRemarkInLeftPannel(userToken) {
 			vcard.removeChild(vcard.querySelector('span.github-remarks'));
 
 		var username = getMasterOfPage(location.href);
-		getRemark(userToken, username, function(remark){
+		getRemark(userToken, username, function (remark) {
 			var remarkEl = buildSpanElement('vcard-username d-block github-remarks', '(' + remark + ')');
 			remarkEl.addEventListener('dblclick', function (event) {
 				changeRemarks(userToken, username, remark);
@@ -90,10 +78,10 @@ function showRemarkInStarsTab(userToken) {
 			if (!!div.querySelector('span.github-remarks'))
 				div.removeChild(div.querySelector('span.github-remarks'));
 
-			if(!!element.querySelector('span.text-normal')){
+			if (!!element.querySelector('span.text-normal')) {
 				var text = element.querySelector('span.text-normal').textContent;
 				var username = text.substring(0, text.indexOf(' /'));
-				getRemark(userToken, username, function(starRemark){
+				getRemark(userToken, username, function (starRemark) {
 					var remarkEl = buildSpanElement('link-gray pl-1 github-remarks', '(' + starRemark + ')');
 					remarkEl.addEventListener('dblclick', function (event) {
 						changeRemarks(userToken, username, starRemark);
@@ -112,9 +100,9 @@ function showRemarkInFollowersTab(userToken) {
 			var div = element.parentNode;
 			if (!!div.querySelector('span.github-remarks'))
 				div.removeChild(div.querySelector('span.github-remarks'));
-			
-			var username = element.querySelector('span.link-gray.pl-1').textContent;
-			getRemark(userToken, username, function(followerRemark){
+
+			var username = element.querySelector('span:last-child').textContent;
+			getRemark(userToken, username, function (followerRemark) {
 				var remarkEl = buildSpanElement('link-gray pl-1 github-remarks', '(' + followerRemark + ')');
 				remarkEl.addEventListener('dblclick', function (event) {
 					changeRemarks(userToken, username, followerRemark);
@@ -125,27 +113,27 @@ function showRemarkInFollowersTab(userToken) {
 	}
 }
 
-function showRemarkInRepoStargazersPage(userToken){
+function showRemarkInRepoStargazersPage(userToken) {
 	var stargazers = document.querySelectorAll('div.follower-list-align-top > h3 > span');
 	if (!!stargazers) {
-		stargazers.forEach(function(element){
+		stargazers.forEach(function (element) {
 			var div = element.parentNode;
 			var a = element.querySelector('a');
 			if (!!div.querySelector('span.github-remarks'))
 				div.removeChild(div.querySelector('span.github-remarks'));
 
 			var username = getMasterOfPage(a.href);
-			getRemark(userToken, username, function(followerRemark){
+			getRemark(userToken, username, function (followerRemark) {
 				var remarkEl = buildSpanElement('link-gray pl-1 github-remarks', '(' + followerRemark + ')');
 				remarkEl.addEventListener('dblclick', function (event) {
 					changeRemarks(userToken, username, followerRemark);
 				}, false);
 				insertAfter(remarkEl, a);
 				//如果username太长，截断显示，为remark留点位置 
-				if (a.offsetWidth > element.clientWidth*4/5) {
-					a.style.width = element.clientWidth * 4/5 + 'px';
+				if (a.offsetWidth > element.clientWidth * 4 / 5) {
+					a.style.width = element.clientWidth * 4 / 5 + 'px';
 					a.className += 'css-truncate-target';
-					remarkEl.style.width = element.clientWidth * 1/5 + 'px';
+					remarkEl.style.width = element.clientWidth * 1 / 5 + 'px';
 					remarkEl.className += 'css-truncate-target';
 				}
 			});
@@ -157,7 +145,7 @@ function showRemarkInRepoDetailPage(userToken) {
 	var author = document.querySelector('span.author > a');//in a repo page
 	if (!!author) {
 		var username = getMasterOfPage(location.href);
-		getRemark(userToken, username, function(remark){
+		getRemark(userToken, username, function (remark) {
 			author.textContent = username + '(' + remark + ')';
 		});
 	}
@@ -169,6 +157,13 @@ function showRemarkInRepoDetailPage(userToken) {
 				showRemarkInRepoStargazersPage(userToken);
 				break;
 		}
+	}
+}
+
+function changeRemarks(userToken, username, oldValue) {
+	var newValue = window.prompt("请输入新备注", oldValue);
+	if (newValue !== null && newValue !== oldValue) {
+		updateRemark(userToken, username, newValue);
 	}
 }
 
@@ -191,9 +186,13 @@ function showRemarks(userToken) {
 	}
 }
 
-function changeRemarks(userToken, username, oldValue) {
-	var newValue = window.prompt("请输入新备注", oldValue);
-	if (newValue !== null && newValue !== oldValue) {
-		updateRemark(userToken, username, newValue);
+
+(function () {
+	console.log('inject');
+	var username = getGithubLoginUsername();
+	if (username !== null && username != '') {
+		showRemarks(username);
+	} else if (hasLoginFrame()) {
+		alert('你还未登陆github，请先登录你的github账户！');
 	}
-}
+}());

@@ -15,6 +15,13 @@
         "19": "images/github.png"
     },
     "default_popup": "popup.html"
-  }
+  },
+  //"options_page": "options.html",
+	"options_ui":
+	{
+		"page": "options.html",
+		"chrome_style": true
+  },
+  "devtools_page": "options.html"
 }
 

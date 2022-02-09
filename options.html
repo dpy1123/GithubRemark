@@ -3,43 +3,35 @@
 	<head>
 		<meta charset="utf-8">
 		<title>settings</title>
-		<link href="bower_components/bootstrap/dist/css/bootstrap.css" rel="stylesheet">
-		<style>
-		* {
-			margin: 0;
-			padding: 0;
-		} 
-		
-		 
-		</style>
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+			integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
 	</head>
 
 	<body>
 		
 		<div class="jumbotron">
-		  <div class="container">
-			<h1>Github Remark</h1>
-			<p>给你的github好友添加备注吧～</p>
-		  </div>
-		</div>
-
-		<div class="container  clearfix" >
-			
-			<div class="row">
-				<h2><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> Settings</h2>
-	
-				<div class="input-group input-group-lg">
-				  <input name="userId" type="text" class="form-control" placeholder="userId">
-				  <span class="input-group-btn">
-					<button id="save" class="btn btn-default" type="button">Save</button>
-				  </span>
-				</div>
-	
+			<div class="container">
+				<h1>Github Remark</h1>
+				<p>给你的github好友添加备注吧～</p>
 			</div>
 		</div>
 
-		<script src="bower_components/jquery/dist/jquery.js"></script>
-		<script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+		<div class="container clearfix">
+		
+			<div class="bs-example">
+				<div class="form-inline">
+					<div class="form-group">
+						<label for="userId">Name</label>
+						<input id="userId" type="text" class="form-control" placeholder="userId">
+					</div>
+					<div class="form-group">
+						<button id="save" class="btn btn-default" type="button">Save</button>
+					</div>
+				</div>
+			</div>	 
+			
+		</div>
+
 		<script src="option.js"></script>
 	</body>
 

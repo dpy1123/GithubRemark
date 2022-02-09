@@ -1,9 +1,9 @@
-(function(){
-	$('input[name=userId]').val(localStorage.userId);
+(function () {
+	document.querySelector('#userId').value = localStorage.userId;
 
-	$('#save').on('click', function(){
-		var newId = $('input[name=userId]').val();
+	document.querySelector('#save').onclick = function () {
+		var newId = document.querySelector('#userId').value;
 		localStorage.userId = newId;
-	});
+	};
 
 })();
