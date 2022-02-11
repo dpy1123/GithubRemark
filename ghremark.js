@@ -1,4 +1,3 @@
-
 function updateRemark(userToken, username, remark) {
 	webApi.updateRemark(userToken, username, remark, function (success) {
 		if (success)
@@ -30,6 +29,9 @@ function getMasterOfPage(url) {
 }
 
 function getCurrentTab() {
+	var homepage = /github.com/.exec(location.href);
+	if (homepage !== null)
+		return 'homepage';
 	var tab = /[\?|\&]tab=([^\&]+)/.exec(location.href);
 	if (tab !== null)
 		tab = tab[1];
@@ -53,6 +55,32 @@ function buildSpanElement(cssName, textContent) {
 	return span;
 }
 
+function showRemarkInHomepage(userToken) {
+	var news = document.querySelector("#dashboard > div.news");
+	var userCount = document.querySelectorAll("div.flex-items-baseline > div > a[data-hovercard-type=user]").length;
+	var observer = new MutationObserver(function (mutations, self) {
+		var users = document.querySelectorAll("div.flex-items-baseline > div > a[data-hovercard-type=user]");
+		if (userCount != users.length) {
+			userCount = users.length
+			users.forEach(function (element) {
+				var div = element.parentNode;
+				if (!!div.querySelector('span.github-remarks'))
+					div.removeChild(div.querySelector('span.github-remarks'));
+
+				var username = getMasterOfPage(element.href);
+				getRemark(userToken, username, function (followerRemark) {
+					var remarkEl = buildSpanElement('link-gray pl-1 github-remarks', '(' + followerRemark + ')');
+					remarkEl.addEventListener('dblclick', function (event) {
+						changeRemarks(userToken, username, followerRemark);
+					}, false);
+					insertAfter(remarkEl, element);
+				});
+			}, this);
+		}
+	});
+	observer.observe(news, { childList: true, subtree: true });
+}
+
 function showRemarkInLeftPannel(userToken) {
 	var vcard = document.querySelector('h1.vcard-names');//author in home page
 	if (!!vcard) {
@@ -71,7 +99,7 @@ function showRemarkInLeftPannel(userToken) {
 }
 
 function showRemarkInStarsTab(userToken) {
-	var stars = document.querySelectorAll('div.d-inline-block.mb-1 > h3 > a');//in star page
+	var stars = document.querySelectorAll('div > h3 > a');//in star page
 	if (stars !== null) {
 		stars.forEach(function (element) {
 			var div = element.parentNode;
@@ -94,7 +122,7 @@ function showRemarkInStarsTab(userToken) {
 }
 
 function showRemarkInFollowersTab(userToken) {
-	var followers = document.querySelectorAll('div.d-table-cell.col-9.v-align-top.pr-3 > a');//in followers/following page
+	var followers = document.querySelectorAll('div.d-table > div:nth-child(2) > a');//in followers/following page
 	if (!!followers) {
 		followers.forEach(function (element) {
 			var div = element.parentNode;
@@ -114,7 +142,7 @@ function showRemarkInFollowersTab(userToken) {
 }
 
 function showRemarkInRepoStargazersPage(userToken) {
-	var stargazers = document.querySelectorAll('div.follower-list-align-top > h3 > span');
+	var stargazers = document.querySelectorAll('div > h3 > span');
 	if (!!stargazers) {
 		stargazers.forEach(function (element) {
 			var div = element.parentNode;
@@ -149,7 +177,7 @@ function showRemarkInRepoDetailPage(userToken) {
 			author.textContent = username + '(' + remark + ')';
 		});
 	}
-	var repoDetail = /\/(stargazers|watchers)$/.exec(location.href);
+	var repoDetail = /\/(stargazers|watchers)(\/you_know)?$/.exec(location.href);
 	if (repoDetail !== null) {
 		switch (repoDetail[1]) {
 			case 'watchers':
@@ -171,6 +199,9 @@ function showRemarks(userToken) {
 	showRemarkInLeftPannel(userToken);
 	var tab = getCurrentTab();
 	switch (tab) {
+		case 'homepage':
+			showRemarkInHomepage(userToken);
+			break;
 		case 'repositories':
 			break;
 		case 'stars':

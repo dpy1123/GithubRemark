@@ -1,14 +1,14 @@
 {
   "manifest_version": 2,
   "name": "GithubRemark",
-  "version": "0.2",
+  "version": "0.4",
   "description": "给你的Github好友增加备注名吧～",
   "icons": { "128": "images/github_512.png" },
   "background": {
     "persistent": true,
     "scripts": ["bg.js"]
   },
-  "permissions": ["tabs", "*://*/*"],
+  "permissions": ["tabs", "*://*.github.com/*"],
   "browser_action": {
     "default_title": "GithubRemark",
     "default_icon": {
@@ -16,9 +16,7 @@
     },
     "default_popup": "popup.html"
   },
-  //"options_page": "options.html",
-	"options_ui":
-	{
+	"options_ui": {
 		"page": "options.html",
 		"chrome_style": true
   },
