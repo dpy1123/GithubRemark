@@ -29,7 +29,7 @@ function getMasterOfPage(url) {
 }
 
 function getCurrentTab() {
-	var homepage = /github.com$/.exec(location.href);
+	var homepage = /github.com\/$/.exec(location.href);
 	if (homepage !== null)
 		return 'homepage';
 	var tab = /[\?|\&]tab=([^\&]+)/.exec(location.href);
