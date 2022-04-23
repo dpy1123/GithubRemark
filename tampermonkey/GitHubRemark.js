@@ -9,10 +9,11 @@
 // @require      https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.slim.min.js
 // @grant        GM_downlaod
 // @grant        GM_xmlhttpRequest
+// @icon         data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAC5klEQVRYR+2Xu49NURTGjZEomdC7iNZby8XUjKg9ghoRrQRRegStx4yaQSdB0CIepUe4/ANoROn7TfaSdfbZj3vGTCFxki/3zN5r7f2t95mRBfnnvbaWC/eEy8Lbgmxqa6kWdwnHhI3CAeFWLDiSObSn9Q/CIrd/U+8nhCXC+oBY/Y0WwDrhorDaCVzX+5FhCfQl+KSjxTXxxxIY/2cIEIKPwmjNrA77nUJADF9GOdDhrqToN62SjAO/m0tCKmDN396Y0G/lQYrAfilOzcPlduSGUCkzf6cI3Nb63nkkcEFnn7TzUwReaHNzRIC43Re+J4it0NqXDOF9Wl8V7TXCkCLwSwqLnZI1oNTlwzjqmoQOO8EqAZ+An50F5MbpgFZLdRdQQTeCVw4Frz3X75YgUyXwSII7g7D1757+9q15LBMO1B4K1vGYA1cEn9hVAt5l26X8NDqAS5KDJZD2IbTL+tqz1l5NQs92Qook326BqWiPrbulP681AkcledWkU0nIGMXdjGJj69dIxpWFEHgPmqe8UegOSgTYY45jMZdRRvySXHuEu0Lp2wCyWPlD4DuCx0q7NQ9yrRil8wLz/7VAUs62DE9J92w4Z0d8TokAJLYJlBRZT3uerFgfDJ75wYvHBRL5UiDRMiImANuF4SLf3SByUKCPEwq+enIeoTMS52cC4SKUuU7ZmgUcTufrBeapWCNDeS3z5rp3q/3MdnO5VAVfJZqK/TCjupHpJSa5HLDEeSVl2imewLX0A+JJmOwZhD1/VqPWZ0PA131KnxnxKXiIJHsgMMAoMwYPBpwbJgalKiDW00I8TjmXHOAhRJ4AHZKkmxMCZsBWvZD9PBAmBDkCkKHnzykB78l+uOA/gTvyBIka54CFoDFyS8lYa8Wxrk06yoySjAlQ//xDQ+fbJFTnRxcCWMVwmhTOCO+EnwKXQowvaapgbZCjTCFRfLoQwOVmEZOSzy7mPU2KPQhCwFq0l8+S+A28A6wh+zYOCgAAAABJRU5ErkJggg==
 // ==/UserScript==
 
 const key = 'GithubRemark-cache';
-const defaultRemark = 'None';
+const defaultRemark = 'unset';
 
 /**
  * API for cache data.
@@ -260,7 +261,7 @@ function showRemarkInOrgMembers(userToken){
 }
 
 function changeRemarks(userToken, username, oldValue) {
-	var newValue = window.prompt("请输入新备注", oldValue);
+	var newValue = window.prompt("请输入新备注 (Please input new remark):", oldValue);
 	if (newValue !== null && newValue !== oldValue) {
 		updateRemark(userToken, username, newValue);
         return newValue;
@@ -303,7 +304,7 @@ function showRemarks(userToken) {
 	if (username !== null && username != '') {
 		showRemarks(username);
 	} else if (hasLoginFrame()) {
-		alert('你还未登陆github，请先登录你的github账户！');
+		alert('你还未登陆github，请先登录你的github账户！\r\nYou have not log in to Github!\r\nPlease log in first.');
 	}
 }());
 
