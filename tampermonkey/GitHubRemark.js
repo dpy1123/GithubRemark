@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         GitHub Remark
-// @namespace    https://blog.cuger.cn
+// @namespace    https://greasyfork.org/zh-CN/scripts/443857-github-remark
 // @version      0.1.0
 // @description  GitHub remark
 // @author       Dorad
