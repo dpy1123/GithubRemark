@@ -7,7 +7,7 @@ This script offers the ability to set a remark for any people you see on GitHub,
 For any user you have not remarked, the default remark "not set" will be displayed after his nickname.
 If you want to change the remark, you can simply double-click on the current remark and enter a new one in the input dialog.
 
-![](../images/Remark%20setting.jpg)
+![Example](https://github.com/Doradx/GithubRemark/raw/master/images/Remark%20setting.jpg)
 
 # Features
 This script has the following features:
