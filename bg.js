@@ -7,8 +7,7 @@ var GithubRemark = function(initParams){
 	});
 	
 	var _insertFunc = function (tabId,changeInfo,tab){
-
-		if(changeInfo.status == 'loading'){
+		if(changeInfo.status == 'complete'){
 			var urlPattern = new RegExp("("+_watchUrls.join('|')+")");
 			if(urlPattern.test(tab.url)){
 				chrome.tabs.executeScript(tabId,{file : "webapi.js"},function(){
