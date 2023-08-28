@@ -192,9 +192,6 @@ function showRemarkInOrgPeople(userToken){
         users.forEach(function (element) {
             clearRemarkOfCurrentNode(element.parentNode);
             var username = getMasterOfPage(element.href);
-            if(element.href.indexOf('orgs')>-1){
-                username = /https:\/\/github.com\/orgs\/([\S\s]+)\/people\/([\s\S]+)$/.exec(element.href)[2];
-            }
             getRemark(userToken, username, function (remark) {
                 insertAfter(generateRemarkSpan('link-gray pl-1 github-remarks', userToken, username, remark), element);
             });
@@ -207,7 +204,7 @@ function showRemarkInOrgMembers(userToken){
     if(!!users){
         users.forEach(function (element) {
             clearRemarkOfCurrentNode(element.parentNode);
-            var username = /https:\/\/github.com\/orgs\/([\S\s]+)\/people\/([\s\S]+)$/.exec(element.href)[2];
+            var username = getMasterOfPage(element.href);
             getRemark(userToken, username, function (remark) {
                 insertAfter(generateRemarkSpan('link-gray pl-1 github-remarks', userToken, username, remark), element);
             });
