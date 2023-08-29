@@ -23,7 +23,7 @@ function getRemark(userToken, username, callback) {
 }
 
 function hasLoginFrame() {
-	var loginBtn = document.querySelector('div.HeaderMenu a[href*=login]');
+	var loginBtn = document.querySelector('div[class*=HeaderMenu] a[href*=login]');
 	return loginBtn != null;
 }
 
