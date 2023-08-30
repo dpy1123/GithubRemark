@@ -7,7 +7,7 @@ var GithubRemark = function (initParams) {
 	});
 
 	var _insertFunc = function (tabId, changeInfo, tab) {
-		if (changeInfo.status == 'complete') {
+		if (changeInfo.status == 'loading' && !!changeInfo.url) {
 			var urlPattern = new RegExp("(" + _watchUrls.join('|') + ")");
 			if (urlPattern.test(tab.url)) {
 				chrome.scripting.executeScript({
